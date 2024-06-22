@@ -1,0 +1,90 @@
+# Copyright (C) 2024 Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+DESCRIPTION="Manage Hyprland dotfiles"
+MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
+VERSION=@VERSION@
+
+###############
+# DIRECTORIES #
+###############
+
+SYS_CONF_DIR="${EROOT%/}/etc"
+USER_CONF_DIR="${HOME}/.config"
+
+CONF_DIR="${SYS_CONF_DIR}/eselect/hypr-dotfiles"
+DOTFILES_DIR="${CONF_DIR}/dotfiles"
+
+###############
+# LIST ACTION #
+###############
+
+describe_list() {
+	echo "List availabe Hyprland dotfiles"
+}
+
+do_list() {
+	:
+}
+
+##############
+# SET ACTION #
+##############
+
+describe_set() {
+	echo "Set a target as the current Hyprland configuration"
+}
+
+describe_set_parameters() {
+	echo "<target>"
+}
+
+describe_set_options() {
+	echo '--force : Set even if the current configuration is not managed by `eselect hypr-dotfiles`'
+	echo 'target  : Target name or number (from `list` action)'
+}
+
+do_set() {
+	:
+}
+
+###############
+# SHOW ACTION #
+###############
+
+describe_show() {
+	echo "Show the current Hyprland configuration"
+}
+
+do_show() {
+	:
+}
+
+################
+# UNSET ACTION #
+################
+
+describe_unset() {
+	echo "Unset the current Hyprland configuration"
+}
+
+describe_unset_options() {
+	echo '--force : Unset even if the current configuration is not managed by `eselect hypr-dotfiles`'
+}
+
+do_unset() {
+	:
+}

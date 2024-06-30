@@ -59,6 +59,53 @@ Describe "Test helper function"
 	# EXAMPLES #
 	############
 
+	Describe "for option parsers"
+		Describe '`parse_mode()`'
+			preserve() {
+				%preserve mode
+			}
+
+			AfterRun preserve
+
+			It "with default mode"
+				When run parse_mode
+				The variable mode should eq "default"
+			End
+
+			It "with force mode (short option)"
+				When run parse_mode -f
+				The variable mode should eq "force"
+			End
+
+			It "with force mode (long option)"
+				When run parse_mode --force
+				The variable mode should eq "force"
+			End
+
+			It "with skip mode (short option)"
+				When run parse_mode -s
+				The variable mode should eq "skip"
+			End
+
+			It "with skip mode (long option)"
+				When run parse_mode --skip
+				The variable mode should eq "skip"
+			End
+
+			It "with bad option (short option)"
+				When run parse_mode -a
+				The error should eq '`-a` is not a valid option.'
+				The status should be failure
+			End
+
+			It "with bad option (long option)"
+				When run parse_mode --all
+				The error should eq '`--all` is not a valid option.'
+				The status should be failure
+			End
+		End
+	End
+
 	Describe "for item management"
 		Describe '`get_user_item()`'
 			It 'with `etc` item'

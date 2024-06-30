@@ -35,11 +35,22 @@ DOTFILES_DIR="${CONF_DIR}/dotfiles"
 # option parsers #
 
 parse_mode() {
+	mode=default
+
 	while [[ $# != 0 ]]; do
 		case "$1" in
-			"") mode=default ;;
-			--force|-f) mode=force ;;
-			--skip|-s) mode=skip ;;
+			--force|-f)
+				mode=force
+				break
+
+				;;
+
+			--skip|-s)
+				mode=skip
+				break
+
+				;;
+
 			-*) die -q "\`$1\` is not a valid option." ;;
 
 			--)

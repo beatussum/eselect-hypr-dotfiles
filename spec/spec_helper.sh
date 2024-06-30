@@ -17,8 +17,8 @@
 spec_helper_precheck() {
 	minimum_version "0.28.1"
 
-	setenv EROOT="${PWD}/fakeroot"
-	setenv HOME="${PWD}/fakeroot/home"
+	setenv EROOT="${PWD}/build/fakeroot"
+	setenv HOME="${PWD}/build/fakeroot/home"
 }
 
 spec_helper_loaded() {

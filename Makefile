@@ -14,7 +14,6 @@ SPECDATADIR	?= spec/data
 CPCMD			?= cp -ar
 INSTALLMKDIRCMD	?= install -d
 INSTALLFILECMD	?= install -D -m0644
-LNCMD			?= ln -rs
 RMDIRCMD		?= rm -fr
 SEDCMD			?= sed
 SHELLSPECCMD	?= shellspec
@@ -30,10 +29,6 @@ $(BUILDDIR)/fakeroot/$(DOTFILESDIR):
 	$(CPCMD) $(SPECDATADIR)/* $(BUILDDIR)/fakeroot/$(DOTFILESDIR)/
 
 	$(INSTALLMKDIRCMD) $(BUILDDIR)/fakeroot/home/.config
-
-	$(LNCMD) \
-		$(BUILDDIR)/fakeroot/$(DOTFILESDIR)/foo/home/hypr \
-		$(BUILDDIR)/fakeroot/home/.config/hypr
 
 $(BUILDDIR)/hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
 	$(SEDCMD) "s/@VERSION@/$(VERSION)/g" $< > $@

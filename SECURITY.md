@@ -6,6 +6,6 @@ I (@beatussum) try to take the security of my softwares seriously. If you believ
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please report security vulnerabilities by contacting me at beatussum@protonmail.com.
+Instead, please report security vulnerabilities by [opening a security advisory](https://github.com/beatussum/eselect-hypr-dotfiles/security/advisories/new/), or by contacting me at beatussum@protonmail.com.
 
 I will try to answer as soon as possible.

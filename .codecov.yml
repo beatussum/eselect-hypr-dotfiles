@@ -1,0 +1,9 @@
+codecov:
+  disable_default_path_fixes: yes
+
+fixes:
+  - "/home/runner/work/eselect-hypr-dotfiles/eselect-hypr-dotfiles/build/::"
+  - "hypr-dotfiles.eselect::src/hypr-dotfiles.eselect.in"
+
+github_checks:
+  annotations: true

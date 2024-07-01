@@ -129,6 +129,11 @@ Describe "Test helper function"
 				When run parse_mode -f -- -s
 				The variable mode should eq "force"
 			End
+
+			It "without option"
+				When run parse_mode foo
+				The variable mode should eq "default"
+			End
 		End
 	End
 

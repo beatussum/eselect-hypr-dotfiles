@@ -9,11 +9,12 @@
 ## Table of contents
 
 - [What is `eselect-hypr-dotfiles`?](#what-is-eselect-hypr-dotfiles)
-- [Licenses](#licenses)
 
 - [Building](#building)
     - [Dependencies](#dependencies)
     - [Building process](#building-process)
+
+- [Licenses](#licenses)
 
 ## What is `eselect-hypr-dotfiles`?
 
@@ -69,4 +70,4 @@ All other dependencies are already included in **@system**.
 
 As explained above, the code of this software is licensed under GPL-3 or any later version. Details of the rights applying to the various third-party files are described in the [copyright](copyright) file in [the Debian `debian/copyright` file format](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/).
 
-[^1]: You can emerge this package by using [my personnal overlay](https://github.com/beatussum/hyprland-overlay/).
+[^1]: You can emerge this package by using [my personnal overlay](https://github.com/beatussum/beatussum-overlay/).

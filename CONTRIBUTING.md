@@ -49,7 +49,7 @@ The Branch Strategy is based on [git-flow-lite](http://nvie.com/posts/a-successf
     # subsection #
     ```
 
-#### Indention
+#### Indentation
 
 - For **Bash files** (`src/*`): 1 tabulation
 - For **Makefile files**: 1 tabulation

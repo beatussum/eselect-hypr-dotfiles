@@ -39,18 +39,8 @@ parse_mode() {
 
 	while [[ $# != 0 ]]; do
 		case "$1" in
-			--force|-f)
-				mode=force
-				break
-
-				;;
-
-			--skip|-s)
-				mode=skip
-				break
-
-				;;
-
+			--force|-f) mode=force ;;
+			--skip|-s) mode=skip ;;
 			-*) die -q "\`$1\` is not a valid option." ;;
 
 			--)

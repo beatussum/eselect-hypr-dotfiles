@@ -31,6 +31,10 @@ $(BUILDDIR)/hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
 clean:
 	$(RMDIRCMD) $(BUILDDIR)
 
+.PHONY: coverage
+coverage: $(BUILDDIR)/hypr-dotfiles.eselect
+	$(SHELLSPECCMD) --kcov
+
 .PHONY: test
 test: $(BUILDDIR)/hypr-dotfiles.eselect
 	$(SHELLSPECCMD)

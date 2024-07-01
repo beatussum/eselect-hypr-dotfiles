@@ -1,2 +1,8 @@
+--covdir build/coverage
 --execdir @project/build
+--helperdir helper
+--kcov-options "--include-pattern=hypr-dotfiles.eselect"
+--output j
+--reportdir build/report
 --require spec_helper
+--sandbox

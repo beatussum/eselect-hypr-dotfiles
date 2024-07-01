@@ -15,7 +15,7 @@
 
 
 Describe "Test helper function"
-	Include "./hypr-dotfiles.eselect"
+	Include "${PWD}/hypr-dotfiles.eselect"
 
 	#########
 	# HOOKS #
@@ -25,16 +25,16 @@ Describe "Test helper function"
 	hypr_dir="${USER_CONF_DIR}/hypr"
 
 	setup() {
-		mkdir -p "${HOME}/.config"
+		@mkdir -p "${HOME}/.config"
 
 		for config in foo bar; do
 			local config_dir="${DOTFILES_DIR}/${config}"
 
-			mkdir -p "${config_dir}"/{etc,home}
+			@mkdir -p "${config_dir}"/{etc,home}
 
-			mkdir "${config_dir}"/{etc,home}/"${config}.conf.d"
-			touch "${config_dir}"/{etc,home}/"${config}.conf"
-			mkdir "${config_dir}/home/hypr"
+			@mkdir "${config_dir}"/{etc,home}/"${config}.conf.d"
+			@touch "${config_dir}"/{etc,home}/"${config}.conf"
+			@mkdir "${config_dir}/home/hypr"
 		done
 	}
 
@@ -43,7 +43,7 @@ Describe "Test helper function"
 	}
 
 	setup_selected() {
-		touch "${foo_conf}"
+		@touch "${foo_conf}"
 		ln -frs "${DOTFILES_DIR}/foo/home/hypr" "${hypr_dir}"
 	}
 

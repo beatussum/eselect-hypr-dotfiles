@@ -1,8 +1,8 @@
 VERSION	:::= $(shell date "+%Y%m%d")
 
 DESTDIR		?=
-PREFIX		?= /usr/local
-SYSCONFDIR	?= /etc
+PREFIX		?= $(DESTDIR)/usr/local
+SYSCONFDIR	?= $(DESTDIR)/etc
 
 CONFIGDIR	?= $(SYSCONFDIR)/eselect/hypr-dotfiles
 DOTFILESDIR	?= $(CONFIGDIR)/dotfiles
@@ -24,12 +24,6 @@ all: $(BUILDDIR)/hypr-dotfiles.eselect
 $(BUILDDIR):
 	$(INSTALLMKDIRCMD) $@
 
-$(BUILDDIR)/fakeroot/$(DOTFILESDIR):
-	$(INSTALLMKDIRCMD) $(BUILDDIR)/fakeroot/$(DOTFILESDIR)
-	$(CPCMD) $(SPECDATADIR)/* $(BUILDDIR)/fakeroot/$(DOTFILESDIR)/
-
-	$(INSTALLMKDIRCMD) $(BUILDDIR)/fakeroot/home/.config
-
 $(BUILDDIR)/hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
 	$(SEDCMD) "s/@VERSION@/$(VERSION)/g" $< > $@
 
@@ -38,13 +32,13 @@ clean:
 	$(RMDIRCMD) $(BUILDDIR)
 
 .PHONY: test
-test: $(BUILDDIR)/hypr-dotfiles.eselect $(BUILDDIR)/fakeroot/$(DOTFILESDIR)
+test: $(BUILDDIR)/hypr-dotfiles.eselect
 	$(SHELLSPECCMD)
 
 .PHONY: install
 install: $(BUILDDIR)/hypr-dotfiles.eselect
-	$(INSTALLMKDIRCMD) $(DESTDIR)/$(DOTFILESDIR)
+	$(INSTALLMKDIRCMD) $(DOTFILESDIR)
 
 	$(INSTALLFILECMD) \
 		$(BUILDDIR)/hypr-dotfiles.eselect \
-		$(DESTDIR)/$(ESELECTDIR)/hypr-dotfiles.eselect
+		$(ESELECTDIR)/hypr-dotfiles.eselect

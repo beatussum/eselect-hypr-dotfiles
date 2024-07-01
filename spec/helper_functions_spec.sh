@@ -25,11 +25,29 @@ Describe "Test helper function"
 	hypr_dir="${USER_CONF_DIR}/hypr"
 
 	setup() {
+		mkdir -p "${HOME}/.config"
+
+		for config in foo bar; do
+			local config_dir="${DOTFILES_DIR}/${config}"
+
+			mkdir -p "${config_dir}"/{etc,home}
+
+			mkdir "${config_dir}"/{etc,home}/"${config}.conf.d"
+			touch "${config_dir}"/{etc,home}/"${config}.conf"
+			mkdir "${config_dir}/home/hypr"
+		done
+	}
+
+	cleanup() {
+		rm -r "${EROOT}"
+	}
+
+	setup_selected() {
 		touch "${foo_conf}"
 		ln -frs "${DOTFILES_DIR}/foo/home/hypr" "${hypr_dir}"
 	}
 
-	cleanup() {
+	cleanup_selected() {
 		rm -f "${foo_conf}"
 		rm -f "${hypr_dir}"
 	}
@@ -58,6 +76,9 @@ Describe "Test helper function"
 	############
 	# EXAMPLES #
 	############
+
+	BeforeAll setup
+	AfterAll cleanup
 
 	Describe "for option parsers"
 		Describe '`parse_mode()`'
@@ -127,8 +148,8 @@ Describe "Test helper function"
 		End
 
 		Describe '`is_set_to()`'
-			BeforeAll setup
-			AfterAll cleanup
+			BeforeAll setup_selected
+			AfterAll cleanup_selected
 
 			It "with symlink"
 				When call is_set_to home/hypr foo
@@ -149,8 +170,8 @@ Describe "Test helper function"
 
 	Describe "for symlink management"
 		Describe '`remove_symlinks()`'
-			BeforeEach setup
-			AfterEach cleanup
+			BeforeEach setup_selected
+			AfterEach cleanup_selected
 
 			It "with default mode"
 				When run remove_symlinks default
@@ -179,7 +200,7 @@ Describe "Test helper function"
 		End
 
 		Describe '`set_symlinks()`'
-			cleanup() {
+			cleanup_selected() {
 				rm "${SYS_CONF_DIR}/foo.conf.d"
 				rm "${SYS_CONF_DIR}/foo.conf"
 
@@ -188,7 +209,7 @@ Describe "Test helper function"
 				rm "${foo_conf}"
 			}
 
-			After cleanup
+			After cleanup_selected
 
 			It
 				When call set_symlinks foo
@@ -217,8 +238,8 @@ Describe "Test helper function"
 			End
 
 			Describe "with set configuration"
-				Before setup
-				After cleanup
+				Before setup_selected
+				After cleanup_selected
 
 				It
 					When call get_current_target_name
@@ -236,8 +257,8 @@ Describe "Test helper function"
 			End
 
 			Describe "with set configuration"
-				Before setup
-				After cleanup
+				Before setup_selected
+				After cleanup_selected
 
 				It
 					When call get_current_target

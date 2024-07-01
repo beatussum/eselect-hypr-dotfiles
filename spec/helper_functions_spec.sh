@@ -124,6 +124,11 @@ Describe "Test helper function"
 				The error should eq '`--all` is not a valid option.'
 				The status should be failure
 			End
+
+			It "with positional arguments"
+				When run parse_mode -f -- -s
+				The variable mode should eq "force"
+			End
 		End
 	End
 

@@ -24,7 +24,8 @@ jobs:
         uses: actions/checkout@v4.1.7
 
       - name: Compute code coverage and runs tests
-        run: SHELLSPECCMD="shellspec --shell bash" make coverage || true
+        run: SHELLSPECCMD="shellspec --shell bash" make coverage
+        continue-on-error: true
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4.3.3

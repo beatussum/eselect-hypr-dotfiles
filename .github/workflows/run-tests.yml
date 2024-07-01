@@ -2,6 +2,11 @@ name: Run tests
 on: [pull_request, push]
 concurrency: ci-${{ github.ref }}
 
+permissions:
+  contents: read
+  checks: write
+  id-token: write
+
 jobs:
   run-tests:
     name: Run tests

@@ -41,7 +41,6 @@ parse_mode() {
 		case "$1" in
 			--force|-f) mode=force ;;
 			--skip|-s) mode=skip ;;
-			-*) die -q "\`$1\` is not a valid option." ;;
 
 			--)
 				shift
@@ -49,6 +48,7 @@ parse_mode() {
 
 				;;
 
+			-*) die -q "\`$1\` is not a valid option." ;;
 			*) break ;;
 		esac
 

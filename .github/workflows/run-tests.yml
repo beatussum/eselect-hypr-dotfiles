@@ -1,0 +1,24 @@
+name: Run tests
+on: [pull_request, push]
+concurrency: ci-${{ github.ref }}
+
+jobs:
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install shellspec
+        run: wget -O- https://git.io/shellspec | bash -s - -y
+
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+
+      - name: Run tests
+        run: SHELLSPECCMD="shellspec --shell bash" make test
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v4.3.1
+        if: success() || failure()
+        with:
+          report_paths: build/report/results_junit.xml

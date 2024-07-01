@@ -1,10 +1,10 @@
-name: Compute code coverage
+name: Compute coverage
 on: [pull_request, push]
 concurrency: ci-${{ github.ref }}
 
 jobs:
-  coverage:
-    name: Compute code coverage
+  compute-coverage:
+    name: Compute coverage
     runs-on: ubuntu-latest
 
     steps:

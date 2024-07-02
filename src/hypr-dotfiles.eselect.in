@@ -37,7 +37,7 @@ DOTFILES_DIR="${CONF_DIR}/dotfiles"
 parse_mode() {
 	mode=default
 
-	while [[ $# != 0 ]]; do
+	while [[ $# -ne 0 ]]; do
 		case "$1" in
 			--force|-f) mode=force ;;
 			--skip|-s) mode=skip ;;
@@ -93,7 +93,7 @@ is_set_to() {
 	local sys_item="$(get_sys_item "${item}" "${target}")"
 
 	[[ -L "${user_item}" ]] && \
-		[[ "$(realpath "${user_item}")" == "${sys_item}" ]]
+		[[ "$(realpath "${user_item}")" = "${sys_item}" ]]
 }
 
 # symlink management #
@@ -135,7 +135,7 @@ remove_symlinks() {
 		esac
 	done
 
-	if [[ ${#to_remove[@]} != 0 ]]; then
+	if [[ ${#to_remove[@]} -ne 0 ]]; then
 		rm "${to_remove[@]}" || die -q
 	fi
 }
@@ -190,7 +190,7 @@ get_current_target() {
 		local targets=( $(find_targets) )
 
 		for (( i = 0; i != ${#targets[@]}; ++i )); do
-			if [[ "${targets[i]}" == "${current_name}" ]]; then
+			if [[ "${targets[i]}" = "${current_name}" ]]; then
 				echo $i
 				return 0
 			fi

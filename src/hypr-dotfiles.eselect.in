@@ -292,7 +292,8 @@ describe_set_parameters() {
 }
 
 describe_set_options() {
-	echo '--force : Set even if the current configuration is not managed by `eselect hypr-dotfiles`'
+	echo '--force : If an entry of the configuration conflicts with an entry of the system which is not managed by `eselect hypr-dotfiles`, the latter is replaced'
+	echo '--skip  : If an entry of the configuration conflicts with an entry of the system which is not managed by `eselect hypr-dotfiles`, the latter is kept'
 	echo 'target  : Target name or number (from `list` action)'
 }
 
@@ -329,7 +330,8 @@ describe_unset() {
 }
 
 describe_unset_options() {
-	echo '--force : Unset even if the current configuration is not managed by `eselect hypr-dotfiles`'
+	echo '--force : If an entry of the configuration is not a symbolic link and, therefore, is not managed by `eselect hypr-dotfiles`, it is removed'
+	echo '--skip  : If an entry of the configuration is not a symbolic link and, therefore, is not managed by `eselect hypr-dotfiles`, it is ignored'
 }
 
 do_unset() {

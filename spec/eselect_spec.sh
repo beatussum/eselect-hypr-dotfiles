@@ -90,4 +90,40 @@ Describe 'Test `eselect` subcommand'
 			End
 		End
 	End
+
+	Describe '`show`'
+		BeforeAll setup_configs
+		AfterAll cleanup_configs
+
+		Describe "(none selected)"
+			result() {
+				%text
+				#|Current Hyprland configuration:
+				#|  (unset)
+			}
+
+			It
+				When call eselect show
+				The output should eq "$(result)"
+				The status should be success
+			End
+		End
+
+		Describe "(selected)"
+			Before setup_selected
+			After cleanup_selected
+
+			result() {
+				%text
+				#|Current Hyprland configuration:
+				#|  foo
+			}
+
+			It
+				When call eselect show
+				The output should eq "$(result)"
+				The status should be success
+			End
+		End
+	End
 End

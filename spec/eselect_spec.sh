@@ -15,6 +15,12 @@
 
 
 Describe 'Test `eselect` subcommand'
+	has_not_eselect() {
+		! @eselect &>> /dev/null
+	}
+
+	Skip if '`eselect` cannot be found' has_not_eselect
+
 	############
 	# WRAPPERS #
 	############

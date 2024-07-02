@@ -18,8 +18,19 @@
 # HOOKS #
 #########
 
-EROOT="${PWD}/build/fakeroot"
+# variables #
+
+EPREFIX="${PWD}/build/fakeroot"
+ROOT="/"
+EROOT="${ROOT%/}${EPREFIX}/"
 HOME="${EROOT}/home"
+
+ENV_VARIABLES=(
+	EPREFIX
+	ROOT
+	EROOT
+	HOME
+)
 
 USER_CONF_DIR="${HOME}/.config"
 DOTFILES_DIR="${EROOT}/etc/eselect/hypr-dotfiles/dotfiles"
@@ -27,9 +38,20 @@ DOTFILES_DIR="${EROOT}/etc/eselect/hypr-dotfiles/dotfiles"
 foo_conf="${USER_CONF_DIR}/foo.conf"
 hypr_dir="${USER_CONF_DIR}/hypr"
 
-setup() {
-	@mkdir -p "${HOME}/.config"
+# `*_base()` #
 
+setup_base() {
+	@mkdir -p "${USER_CONF_DIR}"
+	@mkdir -p "${DOTFILES_DIR}"
+}
+
+cleanup_base() {
+	rm -r "${EROOT}"
+}
+
+# `*_configs()` #
+
+setup_configs() {
 	for config in foo bar; do
 		local config_dir="${DOTFILES_DIR}/${config}"
 
@@ -41,9 +63,13 @@ setup() {
 	done
 }
 
-cleanup() {
-	rm -r "${EROOT}"
+cleanup_configs() {
+	for config in foo bar; do
+		rm -r "${DOTFILES_DIR}/${config}"
+	done
 }
+
+# `*_selected()` #
 
 setup_selected() {
 	@touch "${foo_conf}"
@@ -62,8 +88,9 @@ cleanup_selected() {
 spec_helper_precheck() {
 	minimum_version "0.28.1"
 
-	setenv EROOT="${EROOT}"
-	setenv HOME="${HOME}"
+	for variable in "${ENV_VARIABLES[@]}"; do
+		setenv "${variable}"="${!variable}"
+	done
 }
 
 spec_helper_loaded() {
@@ -71,5 +98,6 @@ spec_helper_loaded() {
 }
 
 spec_helper_configure() {
-	:
+	before_all setup_base
+	after_all cleanup_base
 }

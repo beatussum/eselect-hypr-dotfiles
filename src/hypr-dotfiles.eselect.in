@@ -96,6 +96,49 @@ is_set_to() {
 		[[ "$(realpath "${user_item}")" = "${sys_item}" ]]
 }
 
+# listers #
+
+list() {
+	_find() {
+		local dir="$1"; shift
+		local options=( "$@" )
+
+		find "${dir}" -mindepth 1 -maxdepth 1 "${options[@]}"
+	}
+
+	_sort() {
+		IFS=$'\n'; local content="$*"
+
+		sort <<< "${content}"
+	}
+
+	local dir="$1"; shift
+	local options=( "$@" )
+
+	local content
+
+	content=( $(_find "${dir}" "${options[@]}") ) || die -q
+	content=( $(_sort "${content[@]}") ) || die -q
+
+	echo "${content[@]}"
+}
+
+list_content() {
+	local dirs=( "$@" )
+
+	for dir in "${dirs[@]}"; do
+		list "${dir}"
+	done
+}
+
+list_directories() {
+	local dirs=( "$@" )
+
+	for dir in "${dirs[@]}"; do
+		list "${dir}" -type d
+	done
+}
+
 # symlink management #
 
 remove_symlinks() {
@@ -106,7 +149,7 @@ remove_symlinks() {
 
 	local to_remove=()
 
-	for item in "${conf_dir}"/{etc,home}/*; do
+	for item in $(list_content "${conf_dir}"/{etc,home}); do
 		local item_base="${item#"${conf_dir}/"}"
 		local user_item="$(get_user_item "${item_base}")"
 
@@ -145,7 +188,7 @@ set_symlinks() {
 
 	local conf_dir="${DOTFILES_DIR}/${target}"
 
-	for item in "${conf_dir}"/{etc,home}/*; do
+	for item in $(list_content "${conf_dir}"/{etc,home}); do
 		local item_base="${item#"${conf_dir}/"}"
 
 		ln -rs \
@@ -160,7 +203,7 @@ set_symlinks() {
 find_targets() {
 	local dotfiles=()
 
-	for conf in "${DOTFILES_DIR}"/*; do
+	for conf in $(list_directories "${DOTFILES_DIR}"); do
 		dotfiles+=( "$(basename "${conf}")" )
 	done
 
@@ -225,7 +268,15 @@ describe_list() {
 }
 
 do_list() {
-	:
+	local current="$(get_current_target)"
+	local targets=( $(find_targets) )
+
+	if is_number "${current}"; then
+		targets[current]="$(highlight_marker "${targets[current]}")"
+	fi
+
+	write_list_start "Available Hyprland dotfiles:"
+	write_numbered_list -m "(none found)" "${targets[@]}"
 }
 
 ##############

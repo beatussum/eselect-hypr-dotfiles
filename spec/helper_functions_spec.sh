@@ -42,8 +42,8 @@ Describe "Test helper function"
 	# EXAMPLES #
 	############
 
-	BeforeAll setup
-	AfterAll cleanup
+	BeforeAll setup_configs
+	AfterAll cleanup_configs
 
 	Describe "for option parsers"
 		Describe '`parse_mode()`'

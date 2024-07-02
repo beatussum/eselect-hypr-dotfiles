@@ -80,8 +80,8 @@ For group containing only one anonymous example, `Before` and `After` should be 
 
 ```
 Describe "Test helper function"
-	Describe "for target management"
-		Describe '`get_current_target()`'
+    Describe "for target management"
+        Describe '`get_current_target()`'
             Describe "with set configuration"
                 Before setup_selected
                 After cleanup_selected

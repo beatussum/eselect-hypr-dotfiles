@@ -98,6 +98,8 @@ spec_helper_loaded() {
 }
 
 spec_helper_configure() {
+	import "support/link"
+
 	before_all setup_base
 	after_all cleanup_base
 }

@@ -98,45 +98,32 @@ is_set_to() {
 
 # listers #
 
-list() {
-	_find() {
-		local dir="$1"; shift
-		local options=( "$@" )
-
-		find "${dir}" -mindepth 1 -maxdepth 1 "${options[@]}"
-	}
-
-	_sort() {
-		IFS=$'\n'; local content="$*"
-
-		sort <<< "${content}"
-	}
-
-	local dir="$1"; shift
-	local options=( "$@" )
-
-	local content
-
-	content=( $(_find "${dir}" "${options[@]}") ) || die -q
-	content=( $(_sort "${content[@]}") ) || die -q
-
-	echo "${content[@]}"
-}
-
 list_content() {
 	local dirs=( "$@" )
 
+	local ret=()
+
 	for dir in "${dirs[@]}"; do
-		list "${dir}"
+		for entry in "${dir}"/*; do
+			[[ -e "${entry}" ]] && ret+=( "${entry}" )
+		done
 	done
+
+	echo "${ret[@]}"
 }
 
 list_directories() {
 	local dirs=( "$@" )
 
+	local ret=()
+
 	for dir in "${dirs[@]}"; do
-		list "${dir}" -type d
+		for entry in "${dir}"/*; do
+			[[ -d "${entry}" ]] && ret+=( "${entry}" )
+		done
 	done
+
+	echo "${ret[@]}"
 }
 
 # symlink management #

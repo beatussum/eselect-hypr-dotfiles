@@ -23,7 +23,7 @@
 EPREFIX="${PWD}/build/fakeroot"
 ROOT="/"
 EROOT="${ROOT%/}${EPREFIX}/"
-HOME="${EROOT}/home"
+HOME="${EROOT}home"
 
 ENV_VARIABLES=(
 	EPREFIX
@@ -33,7 +33,7 @@ ENV_VARIABLES=(
 )
 
 USER_CONF_DIR="${HOME}/.config"
-DOTFILES_DIR="${EROOT}/etc/eselect/hypr-dotfiles/dotfiles"
+DOTFILES_DIR="${EROOT}etc/eselect/hypr-dotfiles/dotfiles"
 
 foo_conf="${USER_CONF_DIR}/foo.conf"
 hypr_dir="${USER_CONF_DIR}/hypr"

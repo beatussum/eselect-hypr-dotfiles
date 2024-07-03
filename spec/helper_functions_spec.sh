@@ -55,26 +55,31 @@ Describe "Test helper function"
 
 			It "with default mode"
 				When run parse_mode
+				The output should be blank
 				The variable mode should eq "default"
 			End
 
 			It "with force mode (short option)"
 				When run parse_mode -f
+				The output should be blank
 				The variable mode should eq "force"
 			End
 
 			It "with force mode (long option)"
 				When run parse_mode --force
+				The output should be blank
 				The variable mode should eq "force"
 			End
 
 			It "with skip mode (short option)"
 				When run parse_mode -s
+				The output should be blank
 				The variable mode should eq "skip"
 			End
 
 			It "with skip mode (long option)"
 				When run parse_mode --skip
+				The output should be blank
 				The variable mode should eq "skip"
 			End
 
@@ -92,11 +97,13 @@ Describe "Test helper function"
 
 			It "with positional arguments"
 				When run parse_mode -f -- -s
+				The output should eq "-s"
 				The variable mode should eq "force"
 			End
 
 			It "without option"
 				When run parse_mode foo
+				The output should eq "foo"
 				The variable mode should eq "default"
 			End
 		End

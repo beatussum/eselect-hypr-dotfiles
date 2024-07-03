@@ -54,6 +54,8 @@ parse_mode() {
 
 		shift
 	done
+
+	echo "$@"
 }
 
 # item management #

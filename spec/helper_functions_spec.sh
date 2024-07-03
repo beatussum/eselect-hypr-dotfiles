@@ -47,40 +47,29 @@ Describe "Test helper function"
 
 	Describe "for option parsers"
 		Describe '`parse_mode()`'
-			preserve() {
-				%preserve mode
-			}
-
-			AfterRun preserve
-
 			It "with default mode"
 				When run parse_mode
-				The output should be blank
-				The variable mode should eq "default"
+				The output should eq "default"
 			End
 
 			It "with force mode (short option)"
 				When run parse_mode -f
-				The output should be blank
-				The variable mode should eq "force"
+				The output should eq "force"
 			End
 
 			It "with force mode (long option)"
 				When run parse_mode --force
-				The output should be blank
-				The variable mode should eq "force"
+				The output should eq "force"
 			End
 
 			It "with skip mode (short option)"
 				When run parse_mode -s
-				The output should be blank
-				The variable mode should eq "skip"
+				The output should eq "skip"
 			End
 
 			It "with skip mode (long option)"
 				When run parse_mode --skip
-				The output should be blank
-				The variable mode should eq "skip"
+				The output should eq "skip"
 			End
 
 			It "with bad option (short option)"
@@ -97,14 +86,12 @@ Describe "Test helper function"
 
 			It "with positional arguments"
 				When run parse_mode -f -- -s
-				The output should eq "-s"
-				The variable mode should eq "force"
+				The output should eq "force -s"
 			End
 
 			It "without option"
 				When run parse_mode foo
-				The output should eq "foo"
-				The variable mode should eq "default"
+				The output should eq "default foo"
 			End
 		End
 	End

@@ -35,7 +35,7 @@ DOTFILES_DIR="${CONF_DIR}/dotfiles"
 # option parsers #
 
 parse_mode() {
-	mode=default
+	local mode=default
 
 	while [[ $# -ne 0 ]]; do
 		case "$1" in
@@ -55,7 +55,7 @@ parse_mode() {
 		shift
 	done
 
-	echo "$@"
+	echo "${mode}" "$@"
 }
 
 # item management #

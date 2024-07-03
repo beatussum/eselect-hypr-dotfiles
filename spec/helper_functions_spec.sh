@@ -142,13 +142,23 @@ Describe "Test helper function"
 			BeforeEach setup_selected
 			AfterEach cleanup_selected
 
-			It "with default mode"
-				When run remove_symlinks default
-				The error should eq ""
-				The status should be failure
+			Describe "with default mode"
+				result() {
+					@cat <<- EOF
+					\`${USER_CONF_DIR}/foo.conf\` does not seems to be managed by \`eselect hypr-dotfiles\`.
+					Please, refer to \`eselect hypr-dotfiles help\`, and set \`--force\` or \`--skip\`.
+					\`${USER_CONF_DIR}/foo.conf\` conflicts with the current configuration.
+					EOF
+				}
 
-				The variable foo_conf should be file
-				The variable hypr_dir should be symlink
+				It
+					When run remove_symlinks default
+					The error should eq "$(result)"
+					The status should be failure
+
+					The variable foo_conf should be file
+					The variable hypr_dir should be symlink
+				End
 			End
 
 			It "with force mode"

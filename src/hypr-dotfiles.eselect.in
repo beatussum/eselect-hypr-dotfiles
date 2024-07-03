@@ -142,29 +142,32 @@ remove_symlinks() {
 		local item_base="${item#"${conf_dir}/"}"
 		local user_item="$(get_user_item "${item_base}")"
 
-		case "${mode}" in
-			default)
-				if is_set_to "${item_base}" "${current}"; then
-					to_remove+=( "${user_item}" )
-				else
-					write_error_msg ""
-					die -q ""
-				fi
+		if [[ -e "${user_item}" ]]; then
+			case "${mode}" in
+				default)
+					if is_set_to "${item_base}" "${current}"; then
+						to_remove+=( "${user_item}" )
+					else
+						write_error_msg "\`${user_item}\` does not seems to be managed by \`eselect hypr-dotfiles\`."
+						write_error_msg 'Please, refer to `eselect hypr-dotfiles help`, and set `--force` or `--skip`.'
+						die -q "\`${user_item}\` conflicts with the current configuration."
+					fi
 
-				;;
+					;;
 
-			force)
-				[[ -e "${user_item}" ]] \
-					&& to_remove+=( "${user_item}" )
+				force)
+					[[ -e "${user_item}" ]] \
+						&& to_remove+=( "${user_item}" )
 
-				;;
+					;;
 
-			skip)
-				is_set_to "${item_base}" "${current}" \
-					&& to_remove+=( "${user_item}" )
+				skip)
+					is_set_to "${item_base}" "${current}" \
+						&& to_remove+=( "${user_item}" )
 
-				;;
-		esac
+					;;
+			esac
+		fi
 	done
 
 	if [[ ${#to_remove[@]} -ne 0 ]]; then

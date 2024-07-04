@@ -15,29 +15,42 @@ jobs:
 
     steps:
       - name: Install shellspec
-        run: wget -O- https://git.io/shellspec | bash -s - -y
+        run: wget -O - https://git.io/shellspec | bash -s - -y
+
+      - name: Download eselect
+        run: wget -O - https://dev.gentoo.org/~ulm/eselect/eselect-1.4.27.tar.xz | tar -Jx
+
+      - name: Build and install eselect
+        working-directory: eselect-1.4.27
+        run: |
+          ./configure
+          make
+          sudo make install
 
       - name: Install other dependencies
         run: sudo apt install -qy kcov
 
       - name: Checkout
         uses: actions/checkout@v4.1.7
+        with:
+          path: eselect-hypr-dotfiles
 
       - name: Compute code coverage and runs tests
         run: SHELLSPECCMD="shellspec --shell bash" make coverage
         continue-on-error: true
+        working-directory: eselect-hypr-dotfiles
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4.3.3
         with:
           name: coverage
-          path: build/coverage
+          path: eselect-hypr-dotfiles/build/coverage
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4.3.3
         with:
           name: report
-          path: build/report
+          path: eselect-hypr-dotfiles/build/report
 
   upload-coverage-report:
     name: Upload test report

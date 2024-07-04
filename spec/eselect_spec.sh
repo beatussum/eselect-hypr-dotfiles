@@ -201,4 +201,44 @@ Describe 'Test `eselect` subcommand'
 			End
 		End
 	End
+
+	Describe '`unset`'
+		BeforeAll setup_configs
+		AfterAll cleanup_configs
+
+		Describe "(selected unmanaged)"
+			BeforeEach setup_set_unmanaged
+			AfterEach cleanup_set
+
+			It '(with `--force`)'
+				When call eselect unset --force
+				The status should be success
+				The variable foo_conf should not be exist
+				The variable hypr_dir should not be exist
+			End
+
+			It '(with `--skip`)'
+				When call eselect unset --skip
+				The status should be success
+				The variable foo_conf should be file
+				The variable hypr_dir should not be exist
+			End
+		End
+
+		Describe "(selected)"
+			BeforeEach setup_set_completed
+			AfterEach cleanup_set
+
+			It
+				When call eselect unset
+				The status should be success
+				The variable hypr_dir should not be exist
+			End
+		End
+
+		It "(no selected)"
+			When call eselect unset
+			The status should be failure
+		End
+	End
 End

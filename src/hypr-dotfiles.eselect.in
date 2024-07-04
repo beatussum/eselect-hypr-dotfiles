@@ -336,5 +336,9 @@ describe_unset_options() {
 }
 
 do_unset() {
-	:
+	set -- $(parse_mode "$@")
+
+	local mode="$1"
+
+	get_current_target &>> /dev/null && remove_symlinks "${mode}"
 }

@@ -58,8 +58,8 @@ Describe 'Test `eselect` subcommand'
 			End
 
 			Describe "(selected)"
-				Before setup_selected
-				After cleanup_selected
+				Before setup_set_completed
+				After cleanup_set
 
 				result() {
 					%text
@@ -110,8 +110,8 @@ Describe 'Test `eselect` subcommand'
 		End
 
 		Describe "(selected)"
-			Before setup_selected
-			After cleanup_selected
+			Before setup_set_completed
+			After cleanup_set
 
 			result() {
 				%text

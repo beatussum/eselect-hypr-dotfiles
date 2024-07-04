@@ -32,7 +32,9 @@ ENV_VARIABLES=(
 	HOME
 )
 
+SYS_CONF_DIR="${EROOT%/}/etc"
 USER_CONF_DIR="${HOME}/.config"
+
 DOTFILES_DIR="${EROOT}etc/eselect/hypr-dotfiles/dotfiles"
 
 foo_conf="${USER_CONF_DIR}/foo.conf"
@@ -69,16 +71,47 @@ cleanup_configs() {
 	done
 }
 
-# `*_selected()` #
+# `*_set_*()` #
 
-setup_selected() {
-	@touch "${foo_conf}"
-	ln -frs "${DOTFILES_DIR}/foo/home/hypr" "${hypr_dir}"
+setup_set_ln() {
+	local target="$1"; shift
+	local items=( "$@" )
+
+	for item in "${items[@]}"; do
+		local item_name
+
+		case "${item}" in
+			etc/*) item_name="${SYS_CONF_DIR}/${item#etc/}" ;;
+			home/*) item_name="${USER_CONF_DIR}/${item#home/}" ;;
+		esac
+
+		ln -rs "${DOTFILES_DIR}/${target}/${item}" "${item_name}"
+	done
 }
 
-cleanup_selected() {
-	rm -f "${foo_conf}"
-	rm -f "${hypr_dir}"
+setup_set_completed() {
+	local config="foo"
+
+	setup_set_ln "${config}" {etc,home}/"${config}.conf"{,.d}
+	setup_set_ln "${config}" "home/hypr"
+}
+
+setup_set_unmanaged() {
+	local config="foo"
+
+	setup_set_ln "${config}" "home/hypr"
+	@touch "${USER_CONF_DIR}/${config}.conf"
+}
+
+cleanup_set() {
+	for config in foo bar; do
+		rm -f "${USER_CONF_DIR}/${config}.conf"
+		rm -fr "${USER_CONF_DIR}/${config}.conf.d"
+		rm -fr "${USER_CONF_DIR}/hypr"
+
+		rm -f "${SYS_CONF_DIR}/${config}.conf"
+		rm -fr "${SYS_CONF_DIR}/${config}.conf.d"
+	done
 }
 
 ####################

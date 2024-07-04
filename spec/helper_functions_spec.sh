@@ -117,8 +117,8 @@ Describe "Test helper function"
 		End
 
 		Describe '`is_set_to()`'
-			BeforeAll setup_selected
-			AfterAll cleanup_selected
+			BeforeAll setup_set_unmanaged
+			AfterAll cleanup_set
 
 			It "with symlink"
 				When call is_set_to home/hypr foo
@@ -139,8 +139,8 @@ Describe "Test helper function"
 
 	Describe "for symlink management"
 		Describe '`remove_symlinks()`'
-			BeforeEach setup_selected
-			AfterEach cleanup_selected
+			BeforeEach setup_set_unmanaged
+			AfterEach cleanup_set
 
 			Describe "with default mode"
 				result() {
@@ -179,16 +179,7 @@ Describe "Test helper function"
 		End
 
 		Describe '`set_symlinks()`'
-			cleanup_selected() {
-				rm "${SYS_CONF_DIR}/foo.conf.d"
-				rm "${SYS_CONF_DIR}/foo.conf"
-
-				rm "${USER_CONF_DIR}/foo.conf.d"
-				rm "${hypr_dir}"
-				rm "${foo_conf}"
-			}
-
-			After cleanup_selected
+			After cleanup_set
 
 			It
 				When call set_symlinks foo
@@ -217,8 +208,8 @@ Describe "Test helper function"
 			End
 
 			Describe "with set configuration"
-				Before setup_selected
-				After cleanup_selected
+				Before setup_set_unmanaged
+				After cleanup_set
 
 				It
 					When call get_current_target_name
@@ -236,8 +227,8 @@ Describe "Test helper function"
 			End
 
 			Describe "with set configuration"
-				Before setup_selected
-				After cleanup_selected
+				Before setup_set_unmanaged
+				After cleanup_set
 
 				It
 					When call get_current_target

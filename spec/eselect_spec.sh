@@ -91,6 +91,81 @@ Describe 'Test `eselect` subcommand'
 		End
 	End
 
+	Describe '`set`'
+		BeforeAll setup_configs
+		AfterAll cleanup_configs
+
+		Describe "(selected unmanaged)"
+			BeforeEach setup_set_unmanaged
+			AfterEach cleanup_set
+
+			Describe '(with `--force`)'
+				It "(with number)"
+					When call eselect set --force 1
+					The status should be success
+					The variable foo_conf should not be exist
+					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				End
+
+				It "(with name)"
+					When call eselect set --force bar
+					The status should be success
+					The variable foo_conf should not be exist
+					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				End
+			End
+
+			Describe '(with `--force`)'
+				It "(with number)"
+					When call eselect set --skip 1
+					The status should be success
+					The variable foo_conf should be file
+					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				End
+
+				It "(with name)"
+					When call eselect set --skip bar
+					The status should be success
+					The variable foo_conf should be file
+					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				End
+			End
+		End
+
+		Describe "(selected)"
+			BeforeEach setup_set_completed
+			AfterEach cleanup_set
+
+			It "(with number)"
+				When call eselect set 1
+				The status should be success
+				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+			End
+
+			It "(with name)"
+				When call eselect set bar
+				The status should be success
+				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+			End
+		End
+
+		Describe "(no selected)"
+			AfterEach cleanup_set
+
+			It "(with number)"
+				When call eselect set 1
+				The status should be success
+				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+			End
+
+			It "(with name)"
+				When call eselect set bar
+				The status should be success
+				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+			End
+		End
+	End
+
 	Describe '`show`'
 		BeforeAll setup_configs
 		AfterAll cleanup_configs

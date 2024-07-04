@@ -290,7 +290,16 @@ describe_set_options() {
 }
 
 do_set() {
-	:
+	set -- $(parse_mode "$@")
+
+	local mode="$1"
+	local target="$2"
+
+	is_number "${target}" \
+		&& target="$(get_target_at $(( target - 1)))"
+
+	get_current_target &>> /dev/null && remove_symlinks "${mode}"
+	set_symlinks "${target}"
 }
 
 ###############

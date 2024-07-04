@@ -51,7 +51,7 @@ Describe 'Test `eselect` subcommand'
 				}
 
 				It
-					When call eselect list
+					When run eselect list
 					The output should eq "$(result)"
 					The status should be success
 				End
@@ -69,7 +69,7 @@ Describe 'Test `eselect` subcommand'
 				}
 
 				It
-					When call eselect list
+					When run eselect list
 					The output should eq "$(result)"
 					The status should be success
 				End
@@ -84,7 +84,7 @@ Describe 'Test `eselect` subcommand'
 			}
 
 			It
-				When call eselect list
+				When run eselect list
 				The output should eq "$(result)"
 				The status should be success
 			End
@@ -101,14 +101,14 @@ Describe 'Test `eselect` subcommand'
 
 			Describe '(with `--force`)'
 				It "(with number)"
-					When call eselect set --force 1
+					When run eselect set --force 1
 					The status should be success
 					The variable foo_conf should not be exist
 					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 				End
 
 				It "(with name)"
-					When call eselect set --force bar
+					When run eselect set --force bar
 					The status should be success
 					The variable foo_conf should not be exist
 					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
@@ -117,14 +117,14 @@ Describe 'Test `eselect` subcommand'
 
 			Describe '(with `--force`)'
 				It "(with number)"
-					When call eselect set --skip 1
+					When run eselect set --skip 1
 					The status should be success
 					The variable foo_conf should be file
 					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 				End
 
 				It "(with name)"
-					When call eselect set --skip bar
+					When run eselect set --skip bar
 					The status should be success
 					The variable foo_conf should be file
 					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
@@ -137,13 +137,13 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It "(with number)"
-				When call eselect set 1
+				When run eselect set 1
 				The status should be success
 				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 			End
 
 			It "(with name)"
-				When call eselect set bar
+				When run eselect set bar
 				The status should be success
 				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 			End
@@ -153,13 +153,13 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It "(with number)"
-				When call eselect set 1
+				When run eselect set 1
 				The status should be success
 				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 			End
 
 			It "(with name)"
-				When call eselect set bar
+				When run eselect set bar
 				The status should be success
 				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
 			End
@@ -178,7 +178,7 @@ Describe 'Test `eselect` subcommand'
 			}
 
 			It
-				When call eselect show
+				When run eselect show
 				The output should eq "$(result)"
 				The status should be success
 			End
@@ -195,7 +195,7 @@ Describe 'Test `eselect` subcommand'
 			}
 
 			It
-				When call eselect show
+				When run eselect show
 				The output should eq "$(result)"
 				The status should be success
 			End
@@ -211,14 +211,14 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It '(with `--force`)'
-				When call eselect unset --force
+				When run eselect unset --force
 				The status should be success
 				The variable foo_conf should not be exist
 				The variable hypr_dir should not be exist
 			End
 
 			It '(with `--skip`)'
-				When call eselect unset --skip
+				When run eselect unset --skip
 				The status should be success
 				The variable foo_conf should be file
 				The variable hypr_dir should not be exist
@@ -230,14 +230,14 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It
-				When call eselect unset
+				When run eselect unset
 				The status should be success
 				The variable hypr_dir should not be exist
 			End
 		End
 
 		It "(no selected)"
-			When call eselect unset
+			When run eselect unset
 			The status should be failure
 		End
 	End

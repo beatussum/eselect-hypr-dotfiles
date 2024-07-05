@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Install the dependencies of shellspec
-        run: sudo apt install -qy kcov
+        run: sudo apt-get install -qy kcov
 
       - name: Download shellspec
         run: wget -O - https://github.com/shellspec/shellspec/archive/refs/tags/0.28.1.tar.gz | tar -xz

@@ -49,7 +49,7 @@ Describe 'Test `eselect` subcommand'
 			  version                   Display version information
 
 			Extra actions:
-			  list                      List availabe Hyprland dotfiles
+			  list                      List availabe Hyprland configurations
 			  set <target>              Set a target as the current Hyprland configuration
 			    --force                   If an entry of the configuration conflicts with
 			                              an entry of the system which is not managed by
@@ -77,14 +77,28 @@ Describe 'Test `eselect` subcommand'
 	End
 
 	Describe '`list`'
+		Describe "without configuration"
+			result() {
+				%text
+				#|Available Hyprland configurations:
+				#|  (none found)
+			}
+
+			It
+				When run eselect list
+				The output should eq "$(result)"
+				The status should be success
+			End
+		End
+
 		Describe "with configurations"
 			BeforeAll setup_configs
 			AfterAll cleanup_configs
 
-			Describe "(none selected)"
+			Describe "without set"
 				result() {
 					%text
-					#|Available Hyprland dotfiles:
+					#|Available Hyprland configurations:
 					#|  [1]   bar
 					#|  [2]   foo
 				}
@@ -96,13 +110,13 @@ Describe 'Test `eselect` subcommand'
 				End
 			End
 
-			Describe "(selected)"
+			Describe "with set"
 				Before setup_set_completed
 				After cleanup_set
 
 				result() {
 					%text
-					#|Available Hyprland dotfiles:
+					#|Available Hyprland configurations:
 					#|  [1]   bar
 					#|  [2]   foo *
 				}
@@ -114,93 +128,79 @@ Describe 'Test `eselect` subcommand'
 				End
 			End
 		End
-
-		Describe "with no configuration"
-			result() {
-				%text
-				#|Available Hyprland dotfiles:
-				#|  (none found)
-			}
-
-			It
-				When run eselect list
-				The output should eq "$(result)"
-				The status should be success
-			End
-		End
 	End
 
 	Describe '`set`'
 		BeforeAll setup_configs
 		AfterAll cleanup_configs
 
-		Describe "(selected unmanaged)"
-			BeforeEach setup_set_unmanaged
-			AfterEach cleanup_set
-
-			Describe '(with `--force`)'
-				It "(with number)"
-					When run eselect set --force 1
-					The status should be success
-					The variable foo_conf should not be exist
-					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
-				End
-
-				It "(with name)"
-					When run eselect set --force bar
-					The status should be success
-					The variable foo_conf should not be exist
-					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
-				End
-			End
-
-			Describe '(with `--force`)'
-				It "(with number)"
-					When run eselect set --skip 1
-					The status should be success
-					The variable foo_conf should be file
-					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
-				End
-
-				It "(with name)"
-					When run eselect set --skip bar
-					The status should be success
-					The variable foo_conf should be file
-					The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
-				End
-			End
-		End
-
-		Describe "(selected)"
+		Describe "with set and completed"
 			BeforeEach setup_set_completed
 			AfterEach cleanup_set
 
-			It "(with number)"
-				When run eselect set 1
-				The status should be success
-				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
-			End
-
-			It "(with name)"
+			It "with name"
 				When run eselect set bar
 				The status should be success
-				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+			End
+
+			It "with number"
+				When run eselect set 1
+				The status should be success
+				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End
 		End
 
-		Describe "(no selected)"
+		Describe "with set and unmanaged"
+			BeforeEach setup_set_unmanaged
 			AfterEach cleanup_set
 
-			It "(with number)"
-				When run eselect set 1
-				The status should be success
-				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+			Describe 'with `--force`'
+				It "with name"
+					When run eselect set --force bar
+					The status should be success
+					The variable foo_conf should not be exist
+					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+				End
+
+				It "with number"
+					When run eselect set --force 1
+					The status should be success
+					The variable foo_conf should not be exist
+					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+				End
 			End
 
-			It "(with name)"
+			Describe 'with `--force`'
+				It "with name"
+					When run eselect set --skip bar
+					The status should be success
+					The variable foo_conf should be file
+					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+				End
+
+				It "with number"
+					When run eselect set --skip 1
+					The status should be success
+					The variable foo_conf should be file
+					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+				End
+			End
+		End
+
+		Describe "without set"
+			AfterEach cleanup_set
+
+			It "with name"
 				When run eselect set bar
 				The status should be success
-				The variable hypr_dir should link "${DOTFILES_DIR}/bar/home/hypr"
+				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
+			End
+
+			It "with number"
+				When run eselect set 1
+				The status should be success
+				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End
 		End
 	End
@@ -209,7 +209,7 @@ Describe 'Test `eselect` subcommand'
 		BeforeAll setup_configs
 		AfterAll cleanup_configs
 
-		Describe "(none selected)"
+		Describe "without set"
 			result() {
 				%text
 				#|Current Hyprland configuration:
@@ -223,7 +223,7 @@ Describe 'Test `eselect` subcommand'
 			End
 		End
 
-		Describe "(selected)"
+		Describe "with set"
 			Before setup_set_completed
 			After cleanup_set
 
@@ -245,7 +245,23 @@ Describe 'Test `eselect` subcommand'
 		BeforeAll setup_configs
 		AfterAll cleanup_configs
 
-		Describe "(selected unmanaged)"
+		It "without set"
+			When run eselect unset
+			The status should be failure
+		End
+
+		Describe "with set and completed"
+			BeforeEach setup_set_completed
+			AfterEach cleanup_set
+
+			It
+				When run eselect unset
+				The status should be success
+				The variable hypr_dir should not be exist
+			End
+		End
+
+		Describe "with set and unmanaged"
 			BeforeEach setup_set_unmanaged
 			AfterEach cleanup_set
 
@@ -262,22 +278,6 @@ Describe 'Test `eselect` subcommand'
 				The variable foo_conf should be file
 				The variable hypr_dir should not be exist
 			End
-		End
-
-		Describe "(selected)"
-			BeforeEach setup_set_completed
-			AfterEach cleanup_set
-
-			It
-				When run eselect unset
-				The status should be success
-				The variable hypr_dir should not be exist
-			End
-		End
-
-		It "(no selected)"
-			When run eselect unset
-			The status should be failure
 		End
 	End
 End

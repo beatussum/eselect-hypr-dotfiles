@@ -35,7 +35,8 @@ ENV_VARIABLES=(
 SYS_CONF_DIR="${EROOT%/}/etc"
 USER_CONF_DIR="${HOME}/.config"
 
-DOTFILES_DIR="${EROOT}etc/eselect/hypr-dotfiles/dotfiles"
+ESELECT_CONF_DIR="${EROOT}etc/eselect/hypr-dotfiles"
+CONF_DIR="${ESELECT_CONF_DIR}/configs"
 
 foo_conf="${USER_CONF_DIR}/foo.conf"
 hypr_dir="${USER_CONF_DIR}/hypr"
@@ -44,7 +45,7 @@ hypr_dir="${USER_CONF_DIR}/hypr"
 
 setup_base() {
 	@mkdir -p "${USER_CONF_DIR}"
-	@mkdir -p "${DOTFILES_DIR}"
+	@mkdir -p "${CONF_DIR}"
 }
 
 cleanup_base() {
@@ -55,7 +56,7 @@ cleanup_base() {
 
 setup_configs() {
 	for config in foo bar; do
-		local config_dir="${DOTFILES_DIR}/${config}"
+		local config_dir="${CONF_DIR}/${config}"
 
 		@mkdir -p "${config_dir}"/{etc,home}
 
@@ -67,7 +68,7 @@ setup_configs() {
 
 cleanup_configs() {
 	for config in foo bar; do
-		rm -r "${DOTFILES_DIR}/${config}"
+		rm -r "${CONF_DIR}/${config}"
 	done
 }
 
@@ -85,7 +86,7 @@ setup_set_ln() {
 			home/*) item_name="${USER_CONF_DIR}/${item#home/}" ;;
 		esac
 
-		ln -rs "${DOTFILES_DIR}/${target}/${item}" "${item_name}"
+		ln -rs "${CONF_DIR}/${target}/${item}" "${item_name}"
 	done
 }
 

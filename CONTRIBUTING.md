@@ -83,8 +83,8 @@ Describe "Test helper function"
     Describe "for target management"
         Describe '`get_current_target()`'
             Describe "with set configuration"
-                Before setup_selected
-                After cleanup_selected
+                Before setup_set_unmanaged
+                After cleanup_set_unmanaged
 
                 It
                     When call get_current_target

@@ -25,8 +25,8 @@ VERSION=@VERSION@
 SYS_CONF_DIR="${EROOT%/}/etc"
 USER_CONF_DIR="${HOME}/.config"
 
-CONF_DIR="${SYS_CONF_DIR}/eselect/hypr-dotfiles"
-DOTFILES_DIR="${CONF_DIR}/dotfiles"
+ESELECT_CONF_DIR="${SYS_CONF_DIR}/eselect/hypr-dotfiles"
+CONF_DIR="${ESELECT_CONF_DIR}/configs"
 
 ####################
 # HELPER FUNCTIONS #
@@ -84,7 +84,7 @@ get_sys_item() {
 	local item="$1"
 	local target="$2"
 
-	echo "${DOTFILES_DIR}/${target}/${item}"
+	echo "${CONF_DIR}/${target}/${item}"
 }
 
 is_set_to() {
@@ -134,7 +134,7 @@ remove_symlinks() {
 	local mode="$1"
 
 	local current="$(get_current_target_name)"
-	local conf_dir="${DOTFILES_DIR}/${current}"
+	local conf_dir="${CONF_DIR}/${current}"
 
 	local to_remove=()
 
@@ -178,7 +178,7 @@ remove_symlinks() {
 set_symlinks() {
 	local target="$1"
 
-	local conf_dir="${DOTFILES_DIR}/${target}"
+	local conf_dir="${CONF_DIR}/${target}"
 
 	for item in $(list_content "${conf_dir}"/{etc,home}); do
 		local item_base="${item#"${conf_dir}/"}"
@@ -193,13 +193,13 @@ set_symlinks() {
 # target management #
 
 find_targets() {
-	local dotfiles=()
+	local targets=()
 
-	for conf in $(list_directories "${DOTFILES_DIR}"); do
-		dotfiles+=( "$(basename "${conf}")" )
+	for conf in $(list_directories "${CONF_DIR}"); do
+		targets+=( "$(basename "${conf}")" )
 	done
 
-	echo "${dotfiles[@]}"
+	echo "${targets[@]}"
 }
 
 get_current_target_name() {
@@ -256,7 +256,7 @@ write_list_entry() {
 ###############
 
 describe_list() {
-	echo "List availabe Hyprland dotfiles"
+	echo "List availabe Hyprland configurations"
 }
 
 do_list() {
@@ -267,7 +267,7 @@ do_list() {
 		targets[current]="$(highlight_marker "${targets[current]}")"
 	fi
 
-	write_list_start "Available Hyprland dotfiles:"
+	write_list_start "Available Hyprland configurations:"
 	write_numbered_list -m "(none found)" "${targets[@]}"
 }
 

@@ -112,7 +112,7 @@ Describe "Test helper function"
 		Describe '`get_sys_item()`'
 			It "with normal input"
 				When call get_sys_item home/foo.conf foo
-				The output should eq "${DOTFILES_DIR}/foo/home/foo.conf"
+				The output should eq "${CONF_DIR}/foo/home/foo.conf"
 			End
 		End
 

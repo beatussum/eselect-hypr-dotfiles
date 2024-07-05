@@ -17,8 +17,12 @@ jobs:
       - name: Install the dependencies of shellspec
         run: sudo apt install -qy kcov
 
+      - name: Download shellspec
+        run: wget -O - https://github.com/shellspec/shellspec/archive/refs/tags/0.28.1.tar.gz | tar -xz
+
       - name: Install shellspec
-        run: wget -O - https://git.io/shellspec | bash -s - -y
+        working-directory: shellspec-0.28.1
+        run: sudo make install
 
       - name: Download eselect
         run: wget -O - https://dev.gentoo.org/~ulm/eselect/eselect-1.4.27.tar.xz | tar -Jx

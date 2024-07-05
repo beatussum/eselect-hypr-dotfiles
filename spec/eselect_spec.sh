@@ -37,6 +37,45 @@ Describe 'Test `eselect` subcommand'
 	# EXAMPLES #
 	############
 
+	Describe '`help`'
+		result() {
+			@cat <<- EOF
+			Manage Hyprland dotfiles
+			Usage: eselect ${PWD}/hypr-dotfiles.eselect <action> <options>
+
+			Standard actions:
+			  help                      Display help text
+			  usage                     Display usage information
+			  version                   Display version information
+
+			Extra actions:
+			  list                      List availabe Hyprland dotfiles
+			  set <target>              Set a target as the current Hyprland configuration
+			    --force                   If an entry of the configuration conflicts with
+			                              an entry of the system which is not managed by
+			                              \`eselect hypr-dotfiles\`, the latter is replaced
+			    --skip                    If an entry of the configuration conflicts with
+			                              an entry of the system which is not managed by
+			                              \`eselect hypr-dotfiles\`, the latter is kept
+			    target                    Target name or number (from \`list\` action)
+			  show                      Show the current Hyprland configuration
+			  unset                     Unset the current Hyprland configuration
+			    --force                   If an entry of the configuration is not a
+			                              symbolic link and, therefore, is not managed by
+			                              \`eselect hypr-dotfiles\`, it is removed
+			    --skip                    If an entry of the configuration is not a
+			                              symbolic link and, therefore, is not managed by
+			                              \`eselect hypr-dotfiles\`, it is ignored
+			EOF
+		}
+
+		It
+			When run eselect help
+			The output should eq "$(result)"
+			The status should be success
+		End
+	End
+
 	Describe '`list`'
 		Describe "with configurations"
 			BeforeAll setup_configs

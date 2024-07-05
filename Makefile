@@ -4,8 +4,8 @@ DESTDIR		?=
 PREFIX		?= $(DESTDIR)/usr/local
 SYSCONFDIR	?= $(DESTDIR)/etc
 
-ESELECTCONFIGDIR	?= $(SYSCONFDIR)/eselect/hypr-dotfiles
-CONFIGDIR			?= $(ESELECTCONFIGDIR)/configs
+ESELECTCONFDIR	?= $(SYSCONFDIR)/eselect/hypr-dotfiles
+CONFDIR			?= $(ESELECTCONFDIR)/configs
 ESELECTDIR			?= $(PREFIX)/share/eselect/modules
 
 BUILDDIR	?= build
@@ -41,7 +41,7 @@ test: $(BUILDDIR)/hypr-dotfiles.eselect
 
 .PHONY: install
 install: $(BUILDDIR)/hypr-dotfiles.eselect
-	$(INSTALLMKDIRCMD) $(CONFIGDIR)
+	$(INSTALLMKDIRCMD) $(CONFDIR)
 
 	$(INSTALLFILECMD) \
 		$(BUILDDIR)/hypr-dotfiles.eselect \

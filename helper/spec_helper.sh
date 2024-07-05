@@ -33,18 +33,16 @@ ENV_VARIABLES=(
 )
 
 SYS_CONF_DIR="${EROOT%/}/etc"
-USER_CONF_DIR="${HOME}/.config"
-
 ESELECT_CONF_DIR="${EROOT}etc/eselect/hypr-dotfiles"
 CONF_DIR="${ESELECT_CONF_DIR}/configs"
 
-foo_conf="${USER_CONF_DIR}/foo.conf"
-hypr_dir="${USER_CONF_DIR}/hypr"
+foo_conf="${HOME}/foo.conf"
+hypr_dir="${HOME}/hypr"
 
 # `*_base()` #
 
 setup_base() {
-	@mkdir -p "${USER_CONF_DIR}"
+	@mkdir -p "${HOME}"
 	@mkdir -p "${CONF_DIR}"
 }
 
@@ -83,7 +81,7 @@ setup_set_ln() {
 
 		case "${item}" in
 			etc/*) item_name="${SYS_CONF_DIR}/${item#etc/}" ;;
-			home/*) item_name="${USER_CONF_DIR}/${item#home/}" ;;
+			home/*) item_name="${HOME}/${item#home/}" ;;
 		esac
 
 		ln -rs "${CONF_DIR}/${target}/${item}" "${item_name}"
@@ -101,14 +99,14 @@ setup_set_unmanaged() {
 	local config="foo"
 
 	setup_set_ln "${config}" "home/hypr"
-	@touch "${USER_CONF_DIR}/${config}.conf"
+	@touch "${HOME}/${config}.conf"
 }
 
 cleanup_set() {
 	for config in foo bar; do
-		rm -f "${USER_CONF_DIR}/${config}.conf"
-		rm -fr "${USER_CONF_DIR}/${config}.conf.d"
-		rm -fr "${USER_CONF_DIR}/hypr"
+		rm -f "${HOME}/${config}.conf"
+		rm -fr "${HOME}/${config}.conf.d"
+		rm -fr "${HOME}/hypr"
 
 		rm -f "${SYS_CONF_DIR}/${config}.conf"
 		rm -fr "${SYS_CONF_DIR}/${config}.conf.d"

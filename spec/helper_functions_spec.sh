@@ -105,7 +105,7 @@ Describe "Test helper function"
 
 			It 'with `home` item'
 				When call get_user_item home/foo.conf
-				The output should eq "${USER_CONF_DIR}/foo.conf"
+				The output should eq "${HOME}/foo.conf"
 			End
 		End
 
@@ -145,9 +145,9 @@ Describe "Test helper function"
 			Describe "with default mode"
 				result() {
 					@cat <<- EOF
-					\`${USER_CONF_DIR}/foo.conf\` does not seems to be managed by \`eselect hypr-dotfiles\`.
+					\`${HOME}/foo.conf\` does not seems to be managed by \`eselect hypr-dotfiles\`.
 					Please, refer to \`eselect hypr-dotfiles help\`, and set \`--force\` or \`--skip\`.
-					\`${USER_CONF_DIR}/foo.conf\` conflicts with the current configuration.
+					\`${HOME}/foo.conf\` conflicts with the current configuration.
 					EOF
 				}
 
@@ -187,7 +187,7 @@ Describe "Test helper function"
 				The value "${SYS_CONF_DIR}/foo.conf.d" should be symlink
 				The value "${SYS_CONF_DIR}/foo.conf" should be symlink
 
-				The value "${USER_CONF_DIR}/foo.conf.d" should be symlink
+				The value "${HOME}/foo.conf.d" should be symlink
 				The variable hypr_dir should be symlink
 				The variable foo_conf should be symlink
 			End

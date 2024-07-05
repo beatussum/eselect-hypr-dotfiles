@@ -23,8 +23,6 @@ VERSION=@VERSION@
 ###############
 
 SYS_CONF_DIR="${EROOT%/}/etc"
-USER_CONF_DIR="${HOME}/.config"
-
 ESELECT_CONF_DIR="${SYS_CONF_DIR}/eselect/hypr-dotfiles"
 CONF_DIR="${ESELECT_CONF_DIR}/configs"
 
@@ -72,7 +70,7 @@ get_user_item() {
 
 			;;
 		home/*)
-			user_item="${USER_CONF_DIR}/${item_base}"
+			user_item="${HOME}/${item_base}"
 
 			;;
 	esac
@@ -203,7 +201,7 @@ find_targets() {
 }
 
 get_current_target_name() {
-	local hypr_dir="${USER_CONF_DIR}/hypr"
+	local hypr_dir="${HOME}/hypr"
 
 	if [[ -L "${hypr_dir}" ]]; then
 		local target_dir="$(realpath "${hypr_dir}/../..")"

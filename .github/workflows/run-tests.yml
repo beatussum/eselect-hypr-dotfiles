@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install the dependencies of shellspec
+        run: sudo apt install -qy kcov
+
       - name: Install shellspec
         run: wget -O - https://git.io/shellspec | bash -s - -y
 
@@ -26,9 +29,6 @@ jobs:
           ./configure
           make
           sudo make install
-
-      - name: Install other dependencies
-        run: sudo apt install -qy kcov
 
       - name: Checkout
         uses: actions/checkout@v4.1.7

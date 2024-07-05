@@ -5,7 +5,7 @@ PREFIX		?= $(DESTDIR)/usr/local
 SYSCONFDIR	?= $(DESTDIR)/etc
 
 ESELECTCONFIGDIR	?= $(SYSCONFDIR)/eselect/hypr-dotfiles
-CONFIGDIR			?= $(ESELECTCONFIGDIR)/dotfiles
+CONFIGDIR			?= $(ESELECTCONFIGDIR)/configs
 ESELECTDIR			?= $(PREFIX)/share/eselect/modules
 
 BUILDDIR	?= build

@@ -1,4 +1,4 @@
-# `eselect-hypr-dotfiles`
+# eselect-hypr-dotfiles
 
 [![License](https://img.shields.io/github/license/beatussum/eselect-hypr-dotfiles)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/beatussum/eselect-hypr-dotfiles)](https://github.com/beatussum/eselect-hypr-dotfiles/releases/)
@@ -8,7 +8,7 @@
 
 ## Table of contents
 
-- [What is `eselect-hypr-dotfiles`?](#what-is-eselect-hypr-dotfiles)
+- [What is `eselect hypr-dotfiles`?](#what-is-eselect-hypr-dotfiles)
 
 - [Building](#building)
     - [Dependencies](#dependencies)
@@ -16,9 +16,9 @@
 
 - [Licenses](#licenses)
 
-## What is `eselect-hypr-dotfiles`?
+## What is `eselect hypr-dotfiles`?
 
-[**`eselect-hypr-dotfiles`**](https://github.com/beatussum/eselect-hypr-dotfiles/) is [an `eselect`](https://wiki.gentoo.org/wiki/Project:Eselect) module for managing [Hyprland](https://hyprland.org/) dotfiles (licensed under GPL-3 or any later version).
+[**`eselect hypr-dotfiles`**](https://github.com/beatussum/eselect-hypr-dotfiles/) is an [`eselect`](https://wiki.gentoo.org/wiki/Project:Eselect) module for managing [Hyprland](https://hyprland.org/) dotfiles (licensed under GPL-3 or any later version).
 
 ## Building
 
@@ -38,16 +38,10 @@ All other dependencies are already included in **@system**.
     git clone "https://github.com/beatussum/eselect-hypr-dotfiles.git"
     ```
 
-1. Change directory.
-
-    ```sh
-    cd eselect-hypr-dotfiles
-    ```
-
 1. **(optional)** Test the program.
 
     ```sh
-    make test
+    make -C eselect-hypr-dotfiles test
     ```
 
     The JUnit report file is at `build/report/results_junit.xml`.
@@ -55,7 +49,7 @@ All other dependencies are already included in **@system**.
 1. **(optional)** Compute code coverage.
 
     ```sh
-    make coverage
+    make -C eselect-hypr-dotfiles coverage
     ```
 
     The output files are in `build/coverage/`.
@@ -63,7 +57,7 @@ All other dependencies are already included in **@system**.
 1. Install the program.
 
     ```sh
-    sudo make DESTDIR=<DESTDIR> PREFIX=<PREFIX> install
+    sudo make -C eselect-hypr-dotfiles DESTDIR=<DESTDIR> PREFIX=<PREFIX> install
     ```
 
 ## Licenses

@@ -1,12 +1,12 @@
 VERSION	= $(shell date "+%Y%m%d")
 
 DESTDIR		?=
-PREFIX		?= $(DESTDIR)/usr/local
-SYSCONFDIR	?= $(DESTDIR)/etc
+PREFIX		?= /usr/local
+SYSCONFDIR	?= /etc
 
-ESELECTCONFDIR	?= $(SYSCONFDIR)/eselect/hypr-dotfiles
+ESELECTCONFDIR	?= $(DESTDIR)/$(SYSCONFDIR)/eselect/hypr-dotfiles
 CONFDIR			?= $(ESELECTCONFDIR)/configs
-ESELECTDIR			?= $(PREFIX)/share/eselect/modules
+ESELECTDIR		?= $(DESTDIR)/$(PREFIX)/share/eselect/modules
 
 BUILDDIR	?= build
 SPECDATADIR	?= spec/data

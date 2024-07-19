@@ -1,6 +1,6 @@
 #! /bin/sh -e
 
-source "${SHELLSPEC_SUPPORT_BIN}"
+. "${SHELLSPEC_SUPPORT_BIN}"
 
 invoke eselect \
 	--colour=no \

@@ -16,6 +16,7 @@
 
 Describe "Test helper function"
 	Include "${PWD}/hypr-dotfiles.eselect"
+	Include "${SHELLSPEC_HELPERDIR}/mocks.sh"
 
 	############
 	# EXAMPLES #

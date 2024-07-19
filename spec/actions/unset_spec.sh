@@ -22,7 +22,7 @@ Describe 'Test `eselect` subcommand'
 		AfterAll cleanup_configs
 
 		It "without set"
-			When run eselect unset
+			When run @eselect unset
 			The status should be failure
 		End
 
@@ -31,7 +31,7 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It
-				When run eselect unset
+				When run @eselect unset
 				The status should be success
 				The variable hypr_dir should not be exist
 			End
@@ -42,14 +42,14 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It '(with `--force`)'
-				When run eselect unset --force
+				When run @eselect unset --force
 				The status should be success
 				The variable foo_conf should not be exist
 				The variable hypr_dir should not be exist
 			End
 
 			It '(with `--skip`)'
-				When run eselect unset --skip
+				When run @eselect unset --skip
 				The status should be success
 				The variable foo_conf should be file
 				The variable hypr_dir should not be exist

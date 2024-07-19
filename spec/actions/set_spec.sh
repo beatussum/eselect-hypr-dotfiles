@@ -26,13 +26,13 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It "with name"
-				When run eselect set bar
+				When run @eselect set bar
 				The status should be success
 				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End
 
 			It "with number"
-				When run eselect set 1
+				When run @eselect set 1
 				The status should be success
 				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End
@@ -44,14 +44,14 @@ Describe 'Test `eselect` subcommand'
 
 			Describe 'with `--force`'
 				It "with name"
-					When run eselect set --force bar
+					When run @eselect set --force bar
 					The status should be success
 					The variable foo_conf should not be exist
 					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 				End
 
 				It "with number"
-					When run eselect set --force 1
+					When run @eselect set --force 1
 					The status should be success
 					The variable foo_conf should not be exist
 					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
@@ -60,14 +60,14 @@ Describe 'Test `eselect` subcommand'
 
 			Describe 'with `--force`'
 				It "with name"
-					When run eselect set --skip bar
+					When run @eselect set --skip bar
 					The status should be success
 					The variable foo_conf should be file
 					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 				End
 
 				It "with number"
-					When run eselect set --skip 1
+					When run @eselect set --skip 1
 					The status should be success
 					The variable foo_conf should be file
 					The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
@@ -79,13 +79,13 @@ Describe 'Test `eselect` subcommand'
 			AfterEach cleanup_set
 
 			It "with name"
-				When run eselect set bar
+				When run @eselect set bar
 				The status should be success
 				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End
 
 			It "with number"
-				When run eselect set 1
+				When run @eselect set 1
 				The status should be success
 				The variable hypr_dir should link "${CONF_DIR}/bar/home/hypr"
 			End

@@ -1,3 +1,9 @@
-#!/bin/sh -e
-. "$SHELLSPEC_SUPPORT_BIN"
-invoke eselect "$@"
+#! /bin/sh -e
+
+source "${SHELLSPEC_SUPPORT_BIN}"
+
+invoke eselect \
+	--colour=no \
+	--eprefix="${EPREFIX}" \
+	"${PWD}/hypr-dotfiles.eselect" \
+	"$@"

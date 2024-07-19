@@ -22,14 +22,6 @@ has_not_eselect() {
 	! @eselect &>> /dev/null
 }
 
-eselect() {
-	@eselect \
-		--colour=no \
-		--eprefix="${EPREFIX}" \
-		"${PWD}/hypr-dotfiles.eselect" \
-		"$@"
-}
-
 #########
 # HOOKS #
 #########
@@ -127,27 +119,6 @@ cleanup_set() {
 		rm -f "${SYS_CONF_DIR}/${config}.conf"
 		rm -fr "${SYS_CONF_DIR}/${config}.conf.d"
 	done
-}
-
-#########
-# MOCKS #
-#########
-
-die() {
-	while [[ $1 == -* ]]; do
-		shift
-	done
-
-	local msg="$*"
-
-	echo "${msg}" >&2
-	exit 1
-}
-
-write_error_msg() {
-	local msg="$*"
-
-	echo "${msg}" >&2
 }
 
 ####################

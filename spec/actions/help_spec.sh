@@ -50,7 +50,7 @@ Describe 'Test `eselect` subcommand'
 		}
 
 		It
-			When run eselect help
+			When run @eselect help
 			The output should eq "$(result)"
 			The status should be success
 		End

@@ -26,7 +26,7 @@ Describe 'Test `eselect` subcommand'
 			}
 
 			It
-				When run eselect list
+				When run @eselect list
 				The output should eq "$(result)"
 				The status should be success
 			End
@@ -45,7 +45,7 @@ Describe 'Test `eselect` subcommand'
 				}
 
 				It
-					When run eselect list
+					When run @eselect list
 					The output should eq "$(result)"
 					The status should be success
 				End
@@ -63,7 +63,7 @@ Describe 'Test `eselect` subcommand'
 				}
 
 				It
-					When run eselect list
+					When run @eselect list
 					The output should eq "$(result)"
 					The status should be success
 				End

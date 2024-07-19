@@ -14,42 +14,19 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-Describe 'Test `eselect` subcommand'
-	Skip if '`eselect` cannot be found' has_not_eselect
+die() {
+	while [[ $1 == -* ]]; do
+		shift
+	done
 
-	Describe '`show`'
-		BeforeAll setup_configs
-		AfterAll cleanup_configs
+	local msg="$*"
 
-		Describe "without set"
-			result() {
-				%text
-				#|Current Hyprland configuration:
-				#|  (unset)
-			}
+	echo "${msg}" >&2
+	exit 1
+}
 
-			It
-				When run @eselect show
-				The output should eq "$(result)"
-				The status should be success
-			End
-		End
+write_error_msg() {
+	local msg="$*"
 
-		Describe "with set"
-			Before setup_set_completed
-			After cleanup_set
-
-			result() {
-				%text
-				#|Current Hyprland configuration:
-				#|  foo
-			}
-
-			It
-				When run @eselect show
-				The output should eq "$(result)"
-				The status should be success
-			End
-		End
-	End
-End
+	echo "${msg}" >&2
+}

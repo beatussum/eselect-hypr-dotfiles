@@ -21,7 +21,7 @@ Describe 'Test `eselect` subcommand'
 		result() {
 			@cat <<- EOF
 			Manage Hyprland dotfiles
-			Usage: eselect ${PWD}/hypr-dotfiles.eselect <action> <options>
+			Usage: eselect ${SHELLSPEC_PROJECT_ROOT}/build/test-hypr-dotfiles.eselect <action> <options>
 
 			Standard actions:
 			  help                      Display help text

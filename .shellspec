@@ -1,7 +1,7 @@
 --covdir build/coverage
---execdir @project/build
 --helperdir helper
---kcov-options "--include-pattern=hypr-dotfiles.eselect"
+--kcov-options "--exclude-path=src/actions"
+--kcov-options "--include-path=src"
 --output j
 --reportdir build/report
 --require spec_helper

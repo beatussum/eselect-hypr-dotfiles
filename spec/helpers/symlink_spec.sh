@@ -15,8 +15,13 @@
 
 
 Describe "Test helper function"
-	Include "${PWD}/hypr-dotfiles.eselect"
 	Include "${SHELLSPEC_HELPERDIR}/mocks.sh"
+
+	Include "${SHELLSPEC_PROJECT_ROOT}/src/core/listers.sh"
+	Include "${SHELLSPEC_PROJECT_ROOT}/src/helpers/item.sh"
+	Include "${SHELLSPEC_PROJECT_ROOT}/src/helpers/target.sh"
+
+	Include "${SHELLSPEC_PROJECT_ROOT}/src/helpers/symlink.sh"
 
 	############
 	# EXAMPLES #

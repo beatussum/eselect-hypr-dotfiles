@@ -5,5 +5,5 @@ source "${SHELLSPEC_SUPPORT_BIN}"
 invoke eselect \
 	--colour=no \
 	--eprefix="${EPREFIX}" \
-	"${PWD}/hypr-dotfiles.eselect" \
+	"${SHELLSPEC_PROJECT_ROOT}/build/hypr-dotfiles.eselect" \
 	"$@"

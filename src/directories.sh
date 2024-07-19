@@ -14,30 +14,6 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
-
-###############
-# DIRECTORIES #
-###############
-
-@DIRECTORIES@
-
-########
-# CORE #
-########
-
-@CORE@
-
-###########
-# HELPERS #
-###########
-
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+SYS_CONF_DIR="${EROOT%/}/etc"
+ESELECT_CONF_DIR="${SYS_CONF_DIR}/eselect/hypr-dotfiles"
+CONF_DIR="${ESELECT_CONF_DIR}/configs"

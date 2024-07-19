@@ -14,30 +14,19 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+describe_unset() {
+	echo "Unset the current Hyprland configuration"
+}
 
-###############
-# DIRECTORIES #
-###############
+describe_unset_options() {
+	echo '--force : If an entry of the configuration is not a symbolic link and, therefore, is not managed by `eselect hypr-dotfiles`, it is removed'
+	echo '--skip  : If an entry of the configuration is not a symbolic link and, therefore, is not managed by `eselect hypr-dotfiles`, it is ignored'
+}
 
-@DIRECTORIES@
+do_unset() {
+	set -- $(parse_mode "$@")
 
-########
-# CORE #
-########
+	local mode="$1"
 
-@CORE@
-
-###########
-# HELPERS #
-###########
-
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	get_current_target &>> /dev/null && remove_symlinks "${mode}"
+}

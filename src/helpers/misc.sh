@@ -14,30 +14,8 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+write_list_entry() {
+	local value="$1"
 
-###############
-# DIRECTORIES #
-###############
-
-@DIRECTORIES@
-
-########
-# CORE #
-########
-
-@CORE@
-
-###########
-# HELPERS #
-###########
-
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	write_kv_list_entry "${value}" ""
+}

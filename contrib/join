@@ -1,0 +1,241 @@
+#! /usr/bin/env bash
+
+# Copyright (C) 2024 Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+declare -A OPTIONS=(
+	[lines]=17
+)
+
+###########
+# HELPERS #
+###########
+
+accumulate() {
+	local entry="$1"
+
+	local ret
+	local -a files
+
+	files=( $(list "${entry}") ) || die
+
+	for file in "${files[@]}"; do
+		ret+="$(get_content_of "${file}")" || die
+		ret+=$'\n\n'
+	done
+
+	[[ -n "${ret}" ]] || die
+	echo "${ret}"
+}
+
+get_content_of() {
+	local file="$1"
+
+	tail +${OPTIONS[lines]} < "${file}"
+}
+
+list() {
+	local entry="$1"
+
+	if [[ -d "${entry}" ]]; then
+		find "${entry}" -maxdepth 1 -mindepth 1 -type f || die
+	elif [[ -f "${entry}" || -p "${entry}" ]]; then
+		echo "${entry}"
+	else
+		die "\`${entry}\` does not exist"
+	fi
+}
+
+########
+# CORE #
+########
+
+die() {
+	local msg="$*"
+
+	[[ -z "${msg}" ]] && msg="(none)"
+
+	cat >&2 <<- EOF
+
+	===============================================================================
+	Fatal error with the following message:
+	  -> ${msg}
+
+	${BASH_SOURCE[0]} at line ${BASH_LINENO[0]}:
+
+	$(gawk "NR == ${BASH_LINENO[0]} { print }" "${BASH_SOURCE[0]}")
+
+	===============================================================================
+
+	EOF
+
+	exit 1
+}
+
+is_number() {
+	local n="$1"
+
+	[[ "${n}" =~ ^[-+]?[0-9]+$ ]]
+}
+
+###########
+# ACTIONS #
+###########
+
+copyright() {
+	cat <<- EOF
+	Copyright (C) 2024 Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+	EOF
+}
+
+join() (
+	local -n ref_patterns="$1"
+	local -n ref_inputs="$2"
+
+	for pattern in "${!ref_patterns[@]}"; do
+		local entry="${ref_patterns["${pattern}"]}"
+
+		local content
+
+		if [[ "${entry}" =~ ^\"(.*)\"$ ]]; then
+			content="${BASH_REMATCH[1]}"
+		else
+			[[ "${content}" = - ]] && content=/dev/stdin
+
+			content="$(accumulate "${entry}")" || die
+			content="$(sed 's/&/\\&/g' <<< "${content}")" || die
+		fi
+
+		export "${pattern}"="${content}"
+	done
+
+	cat <<- "EOF" | gawk -f - -- "${ref_inputs[@]}" || die
+	BEGIN { FPAT = "@[A-Z]+@" }
+
+	NF == 0 { print }
+
+	NF != 0 {
+		while (NF != 0) {
+			key = substr($1, 2, length($1) - 2)
+			sub($1, ENVIRON[key])
+		}
+
+		print
+	}
+	EOF
+)
+
+usage() {
+	cat <<- EOF
+	Usage: ${BASH_SOURCE[0]} [options...] [--] [patterns...] [--] [inputs...]
+
+	Options:
+	  -c,--copyright    Print copyright information.
+	  -h,--help         Print this message.
+	  -l,--lines NUM    Set the number of lines to be deleted at the beginning of each entry.
+
+	${BASH_SOURCE[0]} Copyright (C) 2024 Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>
+	This program comes with ABSOLUTELY NO WARRANTY; for details type \`${BASH_SOURCE[0]} --copyright'.
+	This is free software, and you are welcome to redistribute it
+	under certain conditions; type \`${BASH_SOURCE[0]} --copyright' for details.
+	EOF
+}
+
+#################
+# MAIN FUNCTION #
+#################
+
+main() {
+	while [[ $# -ne 0 ]]; do
+		case "$1" in
+			-c|--copyright)
+				copyright
+				exit
+
+				;;
+
+			-l|--lines)
+				if is_number "$2"; then
+					OPTIONS[lines]=$2
+				else
+					die "\`$2\` is not a number"
+				fi
+
+				shift
+
+				;;
+
+			-h|--help)
+				usage
+				exit
+
+				;;
+
+			--)
+				shift
+				break
+
+				;;
+
+			-*)
+				usage >&2
+				die "\`$1\` is not a correct option"
+
+				;;
+
+			*) break ;;
+		esac
+
+		shift
+	done
+
+	local -A patterns
+
+	while [[ $# -ne 0 ]]; do
+		if [[ "$1" =~ ([A-Z]+)=(.*) ]]; then
+			local pattern="${BASH_REMATCH[1]}"
+			local entry="${BASH_REMATCH[2]}"
+
+			patterns["${pattern}"]="${entry}"
+		elif [[ "$1" = -- ]]; then
+			shift
+			break
+		else
+			break
+		fi
+
+		shift
+	done
+
+	local inputs=( "$@" )
+
+	join patterns inputs || die
+}
+
+main "$@"

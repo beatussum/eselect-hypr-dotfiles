@@ -14,30 +14,40 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+get_user_item() {
+	local item="$1"
 
-###############
-# DIRECTORIES #
-###############
+	local item_base="${item#*/}"
+	local user_item
 
-@DIRECTORIES@
+	case "${item}" in
+		etc/*)
+			user_item="${SYS_CONF_DIR}/${item_base}"
 
-########
-# CORE #
-########
+			;;
+		home/*)
+			user_item="${HOME}/${item_base}"
 
-@CORE@
+			;;
+	esac
 
-###########
-# HELPERS #
-###########
+	echo "${user_item}"
+}
 
-@HELPERS@
+get_sys_item() {
+	local item="$1"
+	local target="$2"
 
-###########
-# ACTIONS #
-###########
+	echo "${CONF_DIR}/${target}/${item}"
+}
 
-@ACTIONS@
+is_set_to() {
+	local item="$1"
+	local target="$2"
+
+	local user_item="$(get_user_item "${item}")"
+	local sys_item="$(get_sys_item "${item}" "${target}")"
+
+	[[ -L "${user_item}" ]] && \
+		[[ "$(realpath "${user_item}")" = "${sys_item}" ]]
+}

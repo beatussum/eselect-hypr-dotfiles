@@ -14,30 +14,26 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+parse_mode() {
+	local mode=default
 
-###############
-# DIRECTORIES #
-###############
+	while [[ $# -ne 0 ]]; do
+		case "$1" in
+			--force|-f) mode=force ;;
+			--skip|-s) mode=skip ;;
 
-@DIRECTORIES@
+			--)
+				shift
+				break
 
-########
-# CORE #
-########
+				;;
 
-@CORE@
+			-*) die -q "\`$1\` is not a valid option." ;;
+			*) break ;;
+		esac
 
-###########
-# HELPERS #
-###########
+		shift
+	done
 
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	echo "${mode}" "$@"
+}

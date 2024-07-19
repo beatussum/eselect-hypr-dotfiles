@@ -14,30 +14,18 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+describe_list() {
+	echo "List availabe Hyprland configurations"
+}
 
-###############
-# DIRECTORIES #
-###############
+do_list() {
+	local current="$(get_current_target)"
+	local targets=( $(find_targets) )
 
-@DIRECTORIES@
+	if is_number "${current}"; then
+		targets[current]="$(highlight_marker "${targets[current]}")"
+	fi
 
-########
-# CORE #
-########
-
-@CORE@
-
-###########
-# HELPERS #
-###########
-
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	write_list_start "Available Hyprland configurations:"
+	write_numbered_list -m "(none found)" "${targets[@]}"
+}

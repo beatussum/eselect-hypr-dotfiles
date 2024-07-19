@@ -14,30 +14,30 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+list_content() {
+	local dirs=( "$@" )
 
-###############
-# DIRECTORIES #
-###############
+	local ret=()
 
-@DIRECTORIES@
+	for dir in "${dirs[@]}"; do
+		for entry in "${dir}"/*; do
+			[[ -e "${entry}" ]] && ret+=( "${entry}" )
+		done
+	done
 
-########
-# CORE #
-########
+	echo "${ret[@]}"
+}
 
-@CORE@
+list_directories() {
+	local dirs=( "$@" )
 
-###########
-# HELPERS #
-###########
+	local ret=()
 
-@HELPERS@
+	for dir in "${dirs[@]}"; do
+		for entry in "${dir}"/*; do
+			[[ -d "${entry}" ]] && ret+=( "${entry}" )
+		done
+	done
 
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	echo "${ret[@]}"
+}

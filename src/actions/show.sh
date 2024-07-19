@@ -14,30 +14,18 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-DESCRIPTION="Manage Hyprland dotfiles"
-MAINTAINER="Mattéo Rossillol‑‑Laruelle <beatussum@protonmail.com>"
-VERSION=@VERSION@
+describe_show() {
+	echo "Show the current Hyprland configuration"
+}
 
-###############
-# DIRECTORIES #
-###############
+do_show() {
+	write_list_start "Current Hyprland configuration:"
 
-@DIRECTORIES@
+	local current
 
-########
-# CORE #
-########
-
-@CORE@
-
-###########
-# HELPERS #
-###########
-
-@HELPERS@
-
-###########
-# ACTIONS #
-###########
-
-@ACTIONS@
+	if current="$(get_current_target_name)"; then
+		write_list_entry "${current}"
+	else
+		write_list_entry "(unset)"
+	fi
+}

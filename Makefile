@@ -14,6 +14,7 @@ SPECDATADIR	?= spec/data
 CPCMD			?= cp -ar
 INSTALLMKDIRCMD	?= install -d
 INSTALLFILECMD	?= install -D -m0644
+JOINCMD			?= contrib/join
 RMDIRCMD		?= rm -fr
 SEDCMD			?= sed
 SHELLSPECCMD	?= shellspec
@@ -25,7 +26,13 @@ $(BUILDDIR):
 	$(INSTALLMKDIRCMD) $@
 
 $(BUILDDIR)/hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
-	$(SEDCMD) "s/@VERSION@/$(VERSION)/g" $< > $@
+	$(JOINCMD) \
+		VERSION='"$(VERSION)"' \
+		DIRECTORIES=src/directories.sh \
+		CORE=src/core \
+		HELPERS=src/helpers \
+		ACTIONS=src/actions \
+		$< > $@
 
 .PHONY: clean
 clean:

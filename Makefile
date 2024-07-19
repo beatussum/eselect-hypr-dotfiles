@@ -34,16 +34,25 @@ $(BUILDDIR)/hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
 		ACTIONS=src/actions \
 		$< > $@
 
+$(BUILDDIR)/test-hypr-dotfiles.eselect: src/hypr-dotfiles.eselect.in $(BUILDDIR)
+	$(JOINCMD) \
+		VERSION='"$(VERSION)"' \
+		DIRECTORIES=helper/include/directories.sh \
+		CORE=helper/include/core.sh \
+		HELPERS=helper/include/helpers.sh \
+		ACTIONS=helper/include/actions.sh \
+		$< > $@
+
 .PHONY: clean
 clean:
 	$(RMDIRCMD) $(BUILDDIR)
 
 .PHONY: coverage
-coverage: $(BUILDDIR)/hypr-dotfiles.eselect
+coverage: $(BUILDDIR)/test-hypr-dotfiles.eselect
 	$(SHELLSPECCMD) --kcov
 
 .PHONY: test
-test: $(BUILDDIR)/hypr-dotfiles.eselect
+test: $(BUILDDIR)/test-hypr-dotfiles.eselect
 	$(SHELLSPECCMD)
 
 .PHONY: install

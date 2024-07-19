@@ -1,6 +1,5 @@
 --covdir build/coverage
 --helperdir helper
---kcov-options "--exclude-path=src/actions"
 --kcov-options "--include-path=src"
 --output j
 --reportdir build/report
